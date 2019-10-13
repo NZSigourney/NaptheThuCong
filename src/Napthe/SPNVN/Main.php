@@ -86,6 +86,9 @@ class Main extends PluginBase implements Listener{
 					case 4:
 					$this->checkStatus($sender);
 					break;
+					case 5:
+					$sender->sendMessage("§c§l•§a Facebook Admin: https://www.facebook.com/RepublicOf.Vietnam.92 Or Thái Thiên Long");
+					break;
 				}
 			});
 			$form->setTitle($this->getConfig()->get("plugin.title"));
@@ -95,6 +98,7 @@ class Main extends PluginBase implements Listener{
 			$form->addButton($this->getConfig()->get("Donation.title"), 2);
 			$form->addButton("§eVersion", 3);
 			$form->addButton("§aAdmin-Tools", 4);
+			$form->addButton("§c-==§d•§e Facebook Admin§d •§c==-", 5);
 			$form->sendToPlayer($sender);
 		}
 		return true;
@@ -123,23 +127,38 @@ class Main extends PluginBase implements Listener{
 				case 2:
 				$loaithe = "Viettel";
 				break;
+				case 3:
+				$loaithe = "Zing";
+				break;
 			}
-			if(!(is_numeric($data[1]) || is_numeric($data[2]))){
+			switch($data[1]){
+				case 0:
+				$menhgia = "20000";
+				break;
+				case 1:
+				$menhgia = "50000";
+				break;
+				case 2:
+				$menhgia = "100000";
+				break;
+			}
+			if(!(is_numeric($data[2]) || is_numeric($data[3]))){
 				$sender->sendMessage("§a§l Phải Là Số!");
 				return true;
 			}
 			$this->getServer()->getLogger()->notice("Donate By ".$sender->getName().", Check In Donation.yml");
-			$sender->sendMessage($this->tag . " §l§aSeri:§e ".$data[1].",§a Code: §e".$data[3]."\n§a Typer:§b ".$loaithe.", §aMệnh Giá: §e". $data[1]);
-			$this->dnt->set( $sender->getName(), ["Typer" => $loaithe, "Mệnh Giá" => $data[1], "Seri" => $data[2], "Code" => $data[3]]);
+			$sender->sendMessage($this->tag . " §l§aSeri:§e ".$data[1].",§a Code: §e".$data[3]."\n§a Typer:§b ".$loaithe.", §aMệnh Giá: §e". $menhgia);
+			$this->dnt->set( $sender->getName(), ["Typer" => $loaithe, "Mệnh Giá" => $menhgia, "Seri" => $data[2], "Code" => $data[3]]);
 			$this->dnt->save();
-			if($data[0] == "Vinaphone"){
+			if($data[0] == "Vinaphone" or "Zing"){
 				$sender->sendMessage($this->tag . "§c Đang Bảo Trì!");
 				return true;
 			}
 		});
 		$form->setTitle($this->getConfig()->get("Donation.title"));
-		$form->addDropdown("Dropdown", ["Mobiphone", "Vinaphone", "Viettel"]);
-		$form->addInput("§aMệnh Giá:");
+		$form->addDropdown("§c•§aLoại Thẻ§c•", ["Mobiphone", "Vinaphone", "Viettel", "Zing"]);
+		$form->addDropdown("§c•§dMệnh Giá§c•", ["20000", "50000", "100000"]);
+		//$form->addInput("§aMệnh Giá:");
 		$form->addInput("§aSeri:");
 		$form->addInput("§aCode:");
 		$form->sendToPlayer($sender);
@@ -189,23 +208,18 @@ class Main extends PluginBase implements Listener{
 		$code = $name["Code"];
 		$api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
 		$form = $api->createCustomForm(Function (Player $sender, $data){
-			$rank = $this->pp->getUserDataMgr()->getGroup($sender);
+			/**$rank = $this->pp->getUserDataMgr()->getGroup($sender);
 			if(is_null($data[6])){
 				switch($data[6]){
 					case 0:
-					if($rank == "Advisor" or "Police"){
-						$sender->sendMessage($this->tag . "§l§a Làm gì như Ăn Trộm thế mày :))");
-					}else{
-						$sender->sendMessage($this->tag . "§l§a Thanks For Donation!");
-						return true;
-					}
+					$sender->sendMessage($this->tag . "§l§a Thanks For Donation!");
 					break;
 					case 1:
 					$this->dnt->remove($this->dnt->get($sender->getName()));
 					break;
 				}
 				return true;
-			}
+			}*/
 		});
 		$form->setTitle($this->getConfig()->get("Profile.title"));
 		$form->addLabel("§aInfo of your card:");
@@ -213,7 +227,7 @@ class Main extends PluginBase implements Listener{
 		$form->addLabel("§c •§a Mệnh Giá:§e ". $cost);
 		$form->addLabel("§c •§a Code:§e ". $code);
 		$form->addLabel("§c •§a Seri:§e ". $seri);
-		$form->addDropdown("Bạn có muốn xoá donation?", ["Don't Delete", "Delete it"]);
+		//$form->addDropdown("Bạn có muốn xoá donation?", ["Don't Delete", "Delete it"]);
 		$form->sendToPlayer($sender);
 	}
 	
