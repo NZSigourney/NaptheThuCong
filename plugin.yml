@@ -1,0 +1,23 @@
+name: NaptheUI
+main: Napthe\SPNVN\Main
+api:
+ - 3.0.0
+ - 3.2.0
+version: 3.0
+author: BlackPMFury
+softDepends:
+ - FormAPI
+commands:
+ napthe:
+  description: "NaptheUI"
+  usage: /napthe
+  default: true
+ infocard:
+  description: "Check info"
+  usage: /infocard
+  permission: napthe.checkstatus
+permissions:
+ napthe.checkstatus:
+  description: "Check Info"
+  usage: /infocard
+  default: op
