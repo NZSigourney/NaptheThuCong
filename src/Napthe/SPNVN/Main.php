@@ -150,7 +150,7 @@ class Main extends PluginBase implements Listener{
 			$sender->sendMessage($this->tag . " §l§aSeri:§e ".$data[1].",§a Code: §e".$data[3]."\n§a Typer:§b ".$loaithe.", §aMệnh Giá: §e". $menhgia);
 			$this->dnt->set( $sender->getName(), ["Typer" => $loaithe, "Mệnh Giá" => $menhgia, "Seri" => $data[2], "Code" => $data[3]]);
 			$this->dnt->save();
-			if($data[0] == "Vinaphone" or "Zing"){
+			if($data[0] == "Vinaphone" || $data[0] == "Zing"){
 				$sender->sendMessage($this->tag . "§c Đang Bảo Trì!");
 				return true;
 			}
